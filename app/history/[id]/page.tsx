@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { jsPDF } from "jspdf";
 import * as htmlToImage from "html-to-image";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import Logo from "../../../public/logo.png";
 
 const Page = () => {
   const [shoppingHistory, setShoppingHistory] = useState<any>([]);
@@ -127,10 +128,6 @@ const Page = () => {
     getData();
   }, [id]);
 
-  const totalQuantity = shoppingHistory?.marketLists?.reduce(
-    (acc: any, p: any) => acc + p.quantity,
-    0
-  );
   const totalPrice = shoppingHistory?.marketLists?.reduce(
     (acc: any, p: any) => acc + p.price * p.quantity,
     0
@@ -272,16 +269,14 @@ const Page = () => {
               }}
             >
               {/* Header */}
-              <h1
-                style={{
-                  textAlign: "center", // text-center
-                  fontWeight: "bold", // font-bold
-                  fontSize: "1.25rem", // text-xl = 20px
-                  marginBottom: "0.5rem", // mb-2 = 8px
-                }}
-              >
-                🛒 Market APP
-              </h1>
+
+              <div className="text-center">
+                <img
+                  src={Logo?.src}
+                  alt="Logo"
+                  className="w-23 h-23 inline-block"
+                />
+              </div>
 
               <hr
                 style={{
@@ -296,7 +291,7 @@ const Page = () => {
                   marginBottom: "0.5rem", // mb-2 = 8px
                 }}
               >
-                Bozorlik #1
+                Bozorlik: {shoppingHistory?.name}
               </p>
 
               {/* Products */}
@@ -411,7 +406,9 @@ const Page = () => {
                 }}
               >
                 <span>
-                  {t("product_total_quantity", { count: totalQuantity })}
+                  {t("product_total_quantity", {
+                    count: shoppingHistory?.marketLists?.length,
+                  })}
                 </span>
               </div>
               <div
@@ -429,7 +426,10 @@ const Page = () => {
             {/* Download button */}
           </div>
           <DialogFooter>
-            <Button className="w-full cursor-pointer" onClick={handleDownload}>
+            <Button
+              className="w-full cursor-pointer   bg-green-500"
+              onClick={handleDownload}
+            >
               {t("button_download")}
             </Button>
           </DialogFooter>
